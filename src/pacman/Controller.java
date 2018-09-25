@@ -1,14 +1,19 @@
 package pacman;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 public class Controller {
+    
+    public List<Character> characters;
 
     public Controller() {
         SwingUtilities.invokeLater(() -> {
             Game game = new Game();
             View view = new View();
+            characters = new ArrayList<Character>();
             JFrame frame = new JFrame();
             frame.setTitle("Pacman"); // sets the frame (window) title
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // normal close operation when clicking x
@@ -21,6 +26,7 @@ public class Controller {
         });
     }
 
+    
     public void detectCharacter2Wall() {
         // TODO implement me
     }

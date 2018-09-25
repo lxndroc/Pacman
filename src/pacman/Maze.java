@@ -2,7 +2,7 @@ package pacman;
 
 import java.util.ArrayList;
 
-public class Maze extends Actor {
+public class Maze extends Character {
 
     public int WIDTH;
     public int HEIGHT;
@@ -12,9 +12,7 @@ public class Maze extends Actor {
     public int fps;
     public Tile tile;
     public Pill pill;
-    public Character character;
 
     public Maze() {
     }
-
 }

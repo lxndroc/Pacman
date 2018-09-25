@@ -4,12 +4,10 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
+//import java.awt.Rectangle;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
@@ -18,7 +16,7 @@ import javax.imageio.ImageIO;
  */
 public class View extends Canvas {
 
-    public static final boolean DRAW_COLLIDER = false;
+    //public static final boolean DRAW_COLLIDER = false;
 //    private Game game;
     private boolean running;
     private BufferStrategy bs;
@@ -29,7 +27,7 @@ public class View extends Canvas {
     public boolean visible = true;
     public BufferedImage frame;
     public BufferedImage[] frames;
-    public Rectangle collider;
+    //public Rectangle collider;
     public BitmapFontRenderer bitmapFontRenderer = new BitmapFontRenderer("/res/font8x8.png", 16, 16);
     
     protected int instructionPointer;
@@ -84,6 +82,7 @@ public class View extends Canvas {
                     g.scale(xScale, yScale); // enlarge image put on the canvas
 //                    displayText(g, "PUSH SPACE TO START", 37, 170);
                     displayMaze(g);
+                    displayPills(g);
                     g.dispose();
                     bs.show();
                     needsRender = false;
@@ -95,7 +94,6 @@ public class View extends Canvas {
                 }
             }
         }
-
     }
 
     protected void loadFrames(String... framesRes) {
@@ -107,7 +105,7 @@ public class View extends Canvas {
             }
             frame = frames[0];
         } catch (IOException ex) {
-            Logger.getLogger(Actor.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
             System.exit(-1);
         }
     }
@@ -126,6 +124,17 @@ public class View extends Canvas {
             }
         }*/
     }
+    
+    public void displayPills(Graphics2D g) {
+        loadFrames("/res/food.png");
+        for (int row=0; row<31; row++) {
+            for (int col=0; col<36; col++) {
+                x = col * 8 + 3 - 32;
+                y = (row + 3) * 8 + 3;
+                displayImage(g);
+            }
+        }
+    }
 
     public void displayImage(Graphics2D g) {
         if (!visible) {
@@ -134,11 +143,11 @@ public class View extends Canvas {
         if (frame != null) {
             g.drawImage(frame, (int) x, (int) y, frame.getWidth(), frame.getHeight(), null);
         }
-        if (DRAW_COLLIDER && collider != null) {
-//            updateCollider();
+/*        if (DRAW_COLLIDER && collider != null) {
+            updateCollider();
             g.setColor(Color.RED);
             g.draw(collider);
-        }
+        }*/
     }
     
     public void displayText(Graphics2D g, String text, int x, int y) {
@@ -160,22 +169,4 @@ public class View extends Canvas {
     public void displayScore() {
         // TODO implement me
     }
-
-    public void displayPills() {
-        // TODO implement me
-    }
-
-    /*    public void update() {
-        game.update();
-    }
-    
-    public void draw(Graphics2D g) {
-        for (Actor actor : actors) {
-            actor.draw(g);
-        }
-    }
-    
-    public void draw(Graphics2D g) {
-        game.draw(g);
-    }*/
 }
