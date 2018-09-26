@@ -6,9 +6,6 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 //import java.awt.Rectangle;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 
 /**
  * Display class.
@@ -22,14 +19,14 @@ public class View extends Canvas {
     private BufferStrategy bs;
     private Maze maze;
 
-    public double x, y;
+//    public double x, y;
     private int xScale = 2, yScale = 2; //enlargement factors
-    public boolean visible = true;
+/*    public boolean visible = true;
     public BufferedImage frame;
     public BufferedImage[] frames;
-    //public Rectangle collider;
+    //public Rectangle collider;*/
     public BitmapFontRenderer bitmapFontRenderer = new BitmapFontRenderer("/res/font8x8.png", 16, 16);
-    
+
     protected int instructionPointer;
     protected long waitTime;
 
@@ -55,7 +52,7 @@ public class View extends Canvas {
         thread.start();
     }
 
-    private class MainLoop implements Runnable {
+    private class MainLoop implements Runnable { // inner class implementing Runnable interface, hence working as a thread
 
         @Override
         public void run() {
@@ -96,23 +93,9 @@ public class View extends Canvas {
         }
     }
 
-    protected void loadFrames(String... framesRes) {
-        try {
-            frames = new BufferedImage[framesRes.length];
-            for (int i = 0; i < framesRes.length; i++) {
-                String frameRes = framesRes[i];
-                frames[i] = ImageIO.read(getClass().getResourceAsStream(frameRes));
-            }
-            frame = frames[0];
-        } catch (IOException ex) {
-            System.out.println(ex);
-            System.exit(-1);
-        }
-    }
-
     public void displayMaze(Graphics2D g) {
-        loadFrames("/res/background_0.png", "/res/background_1.png");
-        displayImage(g);
+        maze.loadFrames(maze, "/res/background_0.png", "/res/background_1.png");
+        displayImage(maze, g);
         /*if (showBlockedCellColor) {
             g.setColor(blockedCellColor);
             for (int row=0; row<31; row++) {
@@ -124,32 +107,33 @@ public class View extends Canvas {
             }
         }*/
     }
-    
+
     public void displayPills(Graphics2D g) {
-        loadFrames("/res/food.png");
-        for (int row=0; row<31; row++) {
-            for (int col=0; col<36; col++) {
-                x = col * 8 + 3 - 32;
-                y = (row + 3) * 8 + 3;
-                displayImage(g);
+        maze.getPills().get(0).loadFrames(maze.getPills().get(0), "/res/food.png");
+        for (int row = 0; row < 31; row++) {
+            for (int col = 0; col < 36; col++) {
+                maze.getPills().get(36 * row + col).setFrames(maze.getPills().get(0).getFrames());
+                maze.getPills().get(36 * row + col).setFrame(maze.getPills().get(0).getFrame());
+                displayImage(maze.getPills().get(36 * row + col), g);
             }
         }
     }
 
-    public void displayImage(Graphics2D g) {
-        if (!visible) {
+    public void displayImage(Character character, Graphics2D g) {
+        if (!character.isVisible()) {
             return;
         }
-        if (frame != null) {
-            g.drawImage(frame, (int) x, (int) y, frame.getWidth(), frame.getHeight(), null);
+        
+        if (character.getFrame() != null) {
+            g.drawImage(character.getFrame(), character.getX(), character.getY(), character.getFrame().getWidth(), character.getFrame().getHeight(), null);
         }
-/*        if (DRAW_COLLIDER && collider != null) {
+        /*        if (DRAW_COLLIDER && collider != null) {
             updateCollider();
             g.setColor(Color.RED);
             g.draw(collider);
         }*/
     }
-    
+
     public void displayText(Graphics2D g, String text, int x, int y) {
         bitmapFontRenderer.drawText(g, text, x, y);
     }

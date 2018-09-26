@@ -1,53 +1,18 @@
 package pacman;
 
-
 /**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
  * @generated
  */
 
-public class Pill
+public class Pill extends Character
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
+	private boolean power;
+	//private Tile position;	
 	
-	public boolean power;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public Tile position;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public Maze maze;
-
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public Pill() {
-		super();
-		// TODO construct me
+	public Pill(int x, int y) {
+            super();
+            this.x = x;
+            this.y = y;
 	}
-
 }
 

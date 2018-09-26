@@ -7,13 +7,10 @@ import javax.swing.SwingUtilities;
 
 public class Controller {
     
-    public List<Character> characters;
-
     public Controller() {
         SwingUtilities.invokeLater(() -> {
             Game game = new Game();
             View view = new View();
-            characters = new ArrayList<Character>();
             JFrame frame = new JFrame();
             frame.setTitle("Pacman"); // sets the frame (window) title
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // normal close operation when clicking x
@@ -25,7 +22,6 @@ public class Controller {
             view.start();
         });
     }
-
     
     public void detectCharacter2Wall() {
         // TODO implement me
@@ -46,5 +42,4 @@ public class Controller {
     public void detectKeys() {
         // TODO implement me
     }
-
 }
