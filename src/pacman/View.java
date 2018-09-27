@@ -96,25 +96,19 @@ public class View extends Canvas {
     public void displayMaze(Graphics2D g) {
         maze.loadFrames(maze, "/res/background_0.png", "/res/background_1.png");
         displayImage(maze, g);
-        /*if (showBlockedCellColor) {
-            g.setColor(blockedCellColor);
-            for (int row=0; row<31; row++) {
-                for (int col=0; col<36; col++) {
-                    if (game.maze[row][col] == 1) {
-                        g.fillRect(col * 8 - 32, (row + 3) * 8, 8, 8);
-                    }
-                }
-            }
-        }*/
     }
 
     public void displayPills(Graphics2D g) {
-        maze.getPills().get(0).loadFrames(maze.getPills().get(0), "/res/food.png");
-        for (int row = 0; row < 31; row++) {
-            for (int col = 0; col < 36; col++) {
-                maze.getPills().get(36 * row + col).setFrames(maze.getPills().get(0).getFrames());
-                maze.getPills().get(36 * row + col).setFrame(maze.getPills().get(0).getFrame());
-                displayImage(maze.getPills().get(36 * row + col), g);
+        int align = 3;
+        g.setColor(Color.WHITE);
+        for (Pill pill : maze.getPills()) {
+            if (pill.isPower()) {
+                g.setColor(Color.ORANGE);
+                g.fillOval(pill.getX(), pill.getY(), 6, 6);
+                g.setColor(Color.WHITE);
+            } // regular pills
+            else {
+                g.fillRect(pill.getX(), pill.getY(), 2, 2);
             }
         }
     }
@@ -123,7 +117,7 @@ public class View extends Canvas {
         if (!character.isVisible()) {
             return;
         }
-        
+
         if (character.getFrame() != null) {
             g.drawImage(character.getFrame(), character.getX(), character.getY(), character.getFrame().getWidth(), character.getFrame().getHeight(), null);
         }
